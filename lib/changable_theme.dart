@@ -32,16 +32,21 @@ class EasyThemeState extends State<EasyTheme> {
 
   Brightness brightness;
 
-  static const String _sharedPreferencesKey = "dark";
+  static const String _sharedPreferencesKey = "isDark";
+
+  bool loaded = false;
 
   @override
   void initState() {
     super.initState();
-    data = widget.data(widget.defaultBrightness);
+    brightness = widget.defaultBrightness;
+    data = widget.data(brightness);
 
     loadBrightness().then((dark) {
       setState(() {
         brightness = dark? Brightness.dark: Brightness.light;
+        data = widget.data(brightness);
+        loaded = true;
       });
     });
   }
@@ -50,24 +55,25 @@ class EasyThemeState extends State<EasyTheme> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    data = widget.data(widget.defaultBrightness);
+    data = widget.data(brightness);
   }
 
 
   @override
   void didUpdateWidget(EasyTheme oldWidget) {
     super.didUpdateWidget(oldWidget);
-    data = widget.data(widget.defaultBrightness);
+    data = widget.data(brightness);
   }
 
   @override
   Widget build(BuildContext context) {
-    return brightness == null? new SizedBox(): widget.themedWidgetBuilder(context, data);
+    return !loaded? new SizedBox(): widget.themedWidgetBuilder(context, data);
   }
 
   void setBrightness(Brightness brightness) async{
     setState(() {
       this.data = widget.data(brightness);
+      this.brightness = brightness;
     });
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool(_sharedPreferencesKey, brightness == Brightness.dark? true: false);

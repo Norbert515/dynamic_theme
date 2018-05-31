@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:easy_theme/changable_theme.dart';
+import 'package:easy_theme/theme_switcher_widgets.dart';
 
 void main() => runApp(new MyApp());
 
@@ -41,12 +42,10 @@ class _MyHomePageState extends State<MyHomePage> {
         title: new Text("Easy Theme"),
       ),
       body: new Center(
-        child: new RaisedButton(onPressed: (){
-          changeBrightness(context);
-        }, child: new Text("Change bightness"),),
+        child: new RaisedButton(onPressed: changeBrightness, child: new Text("Change brightness"),),
       ),
       floatingActionButton: new FloatingActionButton(
-        onPressed: (){},
+        onPressed: showChooser,
         child: new Icon(Icons.add),
       ),
       bottomNavigationBar: new BottomNavigationBar(
@@ -65,8 +64,18 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
 
+  void showChooser() {
+    showDialog(context: context, builder: (context) {
+      return new BrightnessSwitcherDialog(
+        onSelectedTheme: (brightness) {
+          EasyTheme.of(context).setBrightness(brightness);
+        },
+      );
+    });
+  }
 
-  void changeBrightness(BuildContext context) {
+
+  void changeBrightness() {
     EasyTheme.of(context).setBrightness(Theme.of(context).brightness == Brightness.dark? Brightness.light: Brightness.dark);
   }
 }

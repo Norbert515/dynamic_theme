@@ -1,18 +1,28 @@
 
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
-  runApp(new MyApp());
+void main() async {
+  Brightness brightness;
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  brightness = (prefs.getBool("isDark") ?? false) ? Brightness.dark: Brightness.light;
+  runApp(new MyApp(brightness: brightness,));
 }
 
 
 class MyApp extends StatefulWidget {
+
+  final Brightness brightness;
+
+  const MyApp({Key key, this.brightness}) : super(key: key);
 
   @override
   _MyAppState createState() => new _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
+
+
 
   Brightness brightness;
 
@@ -22,7 +32,7 @@ class _MyAppState extends State<MyApp> {
       title: 'Flutter Demo',
       theme: new ThemeData(
         primarySwatch: Colors.blue,
-        brightness: brightness,
+        brightness: Brightness.dark,
       ),
       home: new MyHomePage(
         title: 'Flutter Demo Home Page',
@@ -34,6 +44,8 @@ class _MyAppState extends State<MyApp> {
       ),
     );
   }
+
+
 }
 
 
@@ -88,4 +100,3 @@ class _MyHomePageState extends State<MyHomePage> {
     ));
   }
 }
-
