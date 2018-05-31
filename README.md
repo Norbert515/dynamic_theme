@@ -1,6 +1,12 @@
 # easy_theme
 
-Easy theming
+Are your users demanding a drak theme for your app?
+
+No?
+
+Well they should!
+
+This packages manages changing your theme during runtime and persiting that theme.
 
 ## Getting Started
 
