@@ -3,16 +3,23 @@ import 'package:easy_theme/changable_theme.dart';
 
 void main() => runApp(new MyApp());
 
+
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return new MaterialApp(
-      title: 'Flutter Demo',
-      theme: new ThemeData(
-        primarySwatch: Colors.blue,
-        brightness: Brightness.dark
+    return new EasyTheme(
+      defaultBrightness: Brightness.light,
+      data: (brightness) => new ThemeData(
+        primarySwatch: Colors.indigo,
+        brightness: brightness,
       ),
-      home: new MyHomePage(title: 'Flutter Demo Home Page'),
+      themedWidgetBuilder: (context, theme) {
+        return new MaterialApp(
+          title: 'Flutter Demo',
+          theme: theme,
+          home: new MyHomePage(title: 'Flutter Demo Home Page'),
+        );
+      }
     );
   }
 }
@@ -37,6 +44,22 @@ class _MyHomePageState extends State<MyHomePage> {
         child: new RaisedButton(onPressed: (){
           changeBrightness(context);
         }, child: new Text("Change bightness"),),
+      ),
+      floatingActionButton: new FloatingActionButton(
+        onPressed: (){},
+        child: new Icon(Icons.add),
+      ),
+      bottomNavigationBar: new BottomNavigationBar(
+          items: [
+            new BottomNavigationBarItem(
+                icon: new Icon(Icons.insert_drive_file),
+                title: new Text("Tab 1")
+            ),
+            new BottomNavigationBarItem(
+                icon: new Icon(Icons.show_chart),
+                title: new Text("Tab 2")
+            ),
+          ],
       ),
     );
   }

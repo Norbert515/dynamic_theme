@@ -1,14 +1,22 @@
+import 'dart:async';
+
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 
 
+typedef Widget ThemedWidgetBuilder(BuildContext context, ThemeData data);
+
+typedef ThemeData ThemeDataWithBrightnessBuilder(Brightness brightness);
+
 class EasyTheme extends StatefulWidget {
 
-  final Widget child;
+  final ThemedWidgetBuilder themedWidgetBuilder;
 
-  final ThemeData data;
+  final ThemeDataWithBrightnessBuilder data;
 
-  const EasyTheme({Key key, this.data, this.child}) : super(key: key);
+  final Brightness defaultBrightness;
+
+  const EasyTheme({Key key, this.data, this.themedWidgetBuilder, this.defaultBrightness}) : super(key: key);
 
   @override
   EasyThemeState createState() => new EasyThemeState();
@@ -22,36 +30,63 @@ class EasyThemeState extends State<EasyTheme> {
 
   ThemeData data;
 
+  Brightness brightness;
+
+  static const String _sharedPreferencesKey = "dark";
+
   @override
   void initState() {
     super.initState();
-    data = widget.data;
+    data = widget.data(widget.defaultBrightness);
+
+    loadBrightness().then((dark) {
+      setState(() {
+        brightness = dark? Brightness.dark: Brightness.light;
+      });
+    });
   }
 
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    data = widget.data;
+    data = widget.data(widget.defaultBrightness);
   }
 
 
   @override
   void didUpdateWidget(EasyTheme oldWidget) {
     super.didUpdateWidget(oldWidget);
-    data = widget.data;
+    data = widget.data(widget.defaultBrightness);
   }
 
   @override
   Widget build(BuildContext context) {
-    return new AnimatedTheme(data: data, child: widget.child);
+    return brightness == null? new SizedBox(): widget.themedWidgetBuilder(context, data);
   }
 
-  void setBrightness(Brightness brightness) {
-    print("Changed theme");
+  void setBrightness(Brightness brightness) async{
     setState(() {
-      data = data.copyWith(brightness: brightness);
+      this.data = widget.data(brightness);
+    });
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_sharedPreferencesKey, brightness == Brightness.dark? true: false);
+  }
+
+
+  void setThemeData(ThemeData data) {
+    setState(() {
+      this.data = data;
     });
   }
 
+
+  Future<bool> loadBrightness() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return (prefs.getBool(_sharedPreferencesKey) ?? false);
+  }
+
+
 }
+
+
