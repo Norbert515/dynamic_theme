@@ -1,9 +1,11 @@
-# dynamic_theme: Dynamicall chaning your theme without hassle
+# dynamic_theme
+## Dynamicall chaning your theme without hassle
 
 ![](https://github.com/Norbert515/dynamic_theme/blob/master/assets/theme.png)
 
 This packages manages changing your theme during runtime and persiting that theme.
-I wrote a medium post about this, check it out here!
+
+### I wrote a medium post about this, check it out here!
 
 ## Usage
 Wrap your material app like this:
@@ -44,6 +46,11 @@ Change the theme like this:
   }
 
 ```
+
+## Also included
+
+### A dialog widget to change the birghtness!
+![](https://github.com/Norbert515/dynamic_theme/blob/master/assets/dialogs.png)
 
 ## Getting Started
 
