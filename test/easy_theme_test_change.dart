@@ -1,11 +1,11 @@
-import 'package:easy_theme/changable_theme.dart';
+import 'package:easy_theme/dynamic_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 
 var key = new ValueKey("ok");
 
-var easyThemeKey = new GlobalKey<EasyThemeState>();
+var easyThemeKey = new GlobalKey<DynamicThemeState>();
 
 void main() {
   testWidgets('change brightness', (WidgetTester tester) async {
@@ -37,7 +37,7 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return new EasyTheme(
+    return new DynamicTheme(
          key: easyThemeKey,
         defaultBrightness: Brightness.dark,
         data: (brightness) {
@@ -61,7 +61,7 @@ class ButtonPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new RaisedButton(onPressed: (){
-      EasyTheme.of(context).setBrightness(Theme.of(context).brightness == Brightness.dark? Brightness.light: Brightness.dark);
+      DynamicTheme.of(context).setBrightness(Theme.of(context).brightness == Brightness.dark? Brightness.light: Brightness.dark);
     },key: key,);
   }
 }

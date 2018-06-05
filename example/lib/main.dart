@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:easy_theme/changable_theme.dart';
+import 'package:easy_theme/dynamic_theme.dart';
 import 'package:easy_theme/theme_switcher_widgets.dart';
 
 void main() => runApp(new MyApp());
@@ -8,7 +8,7 @@ void main() => runApp(new MyApp());
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return new EasyTheme(
+    return new DynamicTheme(
       defaultBrightness: Brightness.light,
       data: (brightness) => new ThemeData(
         primarySwatch: Colors.indigo,
@@ -68,7 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
     showDialog(context: context, builder: (context) {
       return new BrightnessSwitcherDialog(
         onSelectedTheme: (brightness) {
-          EasyTheme.of(context).setBrightness(brightness);
+          DynamicTheme.of(context).setBrightness(brightness);
         },
       );
     });
@@ -76,7 +76,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
   void changeBrightness() {
-    EasyTheme.of(context).setBrightness(Theme.of(context).brightness == Brightness.dark? Brightness.light: Brightness.dark);
+    DynamicTheme.of(context).setBrightness(Theme.of(context).brightness == Brightness.dark? Brightness.light: Brightness.dark);
   }
 }
 

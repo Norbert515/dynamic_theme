@@ -8,7 +8,7 @@ typedef Widget ThemedWidgetBuilder(BuildContext context, ThemeData data);
 
 typedef ThemeData ThemeDataWithBrightnessBuilder(Brightness brightness);
 
-class EasyTheme extends StatefulWidget {
+class DynamicTheme extends StatefulWidget {
 
   final ThemedWidgetBuilder themedWidgetBuilder;
 
@@ -16,17 +16,17 @@ class EasyTheme extends StatefulWidget {
 
   final Brightness defaultBrightness;
 
-  const EasyTheme({Key key, this.data, this.themedWidgetBuilder, this.defaultBrightness}) : super(key: key);
+  const DynamicTheme({Key key, this.data, this.themedWidgetBuilder, this.defaultBrightness}) : super(key: key);
 
   @override
-  EasyThemeState createState() => new EasyThemeState();
+  DynamicThemeState createState() => new DynamicThemeState();
 
-  static EasyThemeState of(BuildContext context) {
-    return context.ancestorStateOfType(const TypeMatcher<EasyThemeState>());
+  static DynamicThemeState of(BuildContext context) {
+    return context.ancestorStateOfType(const TypeMatcher<DynamicThemeState>());
   }
 }
 
-class EasyThemeState extends State<EasyTheme> {
+class DynamicThemeState extends State<DynamicTheme> {
 
   ThemeData _data;
 
@@ -60,7 +60,7 @@ class EasyThemeState extends State<EasyTheme> {
 
 
   @override
-  void didUpdateWidget(EasyTheme oldWidget) {
+  void didUpdateWidget(DynamicTheme oldWidget) {
     super.didUpdateWidget(oldWidget);
     _data = widget.data(_brightness);
   }
