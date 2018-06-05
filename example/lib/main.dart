@@ -42,7 +42,13 @@ class _MyHomePageState extends State<MyHomePage> {
         title: new Text("Easy Theme"),
       ),
       body: new Center(
-        child: new RaisedButton(onPressed: changeBrightness, child: new Text("Change brightness"),),
+        child: new Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            new RaisedButton(onPressed: changeBrightness, child: new Text("Change brightness"),),
+            new RaisedButton(onPressed: changeColor, child: new Text("Change color"),),
+          ],
+        ),
       ),
       floatingActionButton: new FloatingActionButton(
         onPressed: showChooser,
@@ -77,6 +83,12 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void changeBrightness() {
     DynamicTheme.of(context).setBrightness(Theme.of(context).brightness == Brightness.dark? Brightness.light: Brightness.dark);
+  }
+
+  void changeColor() {
+    DynamicTheme.of(context).setThemeData(new ThemeData(
+        primaryColor: Theme.of(context).primaryColor == Colors.indigo? Colors.red: Colors.indigo
+    ));
   }
 }
 
