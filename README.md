@@ -7,6 +7,18 @@ This packages manages changing your theme during runtime and persiting that them
 
 ### I wrote a medium post about this, check it out here!
 
+## Include in your project
+```
+dependencies:
+  dynamic_theme:
+    git:
+      url: git://github.com/Norbert515/dynamic_theme.git
+```
+and import it
+```
+
+```
+
 ## Usage
 Wrap your material app like this:
 ```dart
