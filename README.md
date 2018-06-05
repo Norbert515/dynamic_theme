@@ -1,4 +1,4 @@
-# easy_theme
+# dynamic_theme
 
 Are your users demanding a drak theme for your app?
 
