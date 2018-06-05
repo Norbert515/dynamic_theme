@@ -1,6 +1,6 @@
 # dynamic_theme: Dynamicall chaning your theme without hassle
 
-![https://github.com/Norbert515/dynamic_theme/blob/master/assets/theme.png]()
+![](https://github.com/Norbert515/dynamic_theme/blob/master/assets/theme.png)
 
 This packages manages changing your theme during runtime and persiting that theme.
 I wrote a medium post about this, check it out here!
@@ -37,7 +37,7 @@ Change the theme like this:
     DynamicTheme.of(context).setBrightness(Theme.of(context).brightness == Brightness.dark? Brightness.light: Brightness.dark);
   }
   
-    void changeColor() {
+  void changeColor() {
     DynamicTheme.of(context).setThemeData(new ThemeData(
         primaryColor: Theme.of(context).primaryColor == Colors.indigo? Colors.red: Colors.indigo
     ));
