@@ -14,9 +14,13 @@ dependencies:
     git:
       url: git://github.com/Norbert515/dynamic_theme.git
 ```
-and import it
+run packages get and import it
 ```
-
+import 'package:dynamic_theme/dynamic_theme.dart';
+```
+if you want the dialog:
+```
+import 'package:dynamic_theme/theme_switcher_widgets.dart';
 ```
 
 ## Usage
