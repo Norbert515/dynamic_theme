@@ -28,9 +28,9 @@ class EasyTheme extends StatefulWidget {
 
 class EasyThemeState extends State<EasyTheme> {
 
-  ThemeData data;
+  ThemeData _data;
 
-  Brightness brightness;
+  Brightness _brightness;
 
   static const String _sharedPreferencesKey = "isDark";
 
@@ -39,13 +39,13 @@ class EasyThemeState extends State<EasyTheme> {
   @override
   void initState() {
     super.initState();
-    brightness = widget.defaultBrightness;
-    data = widget.data(brightness);
+    _brightness = widget.defaultBrightness;
+    _data = widget.data(_brightness);
 
     loadBrightness().then((dark) {
       setState(() {
-        brightness = dark? Brightness.dark: Brightness.light;
-        data = widget.data(brightness);
+        _brightness = dark? Brightness.dark: Brightness.light;
+        _data = widget.data(_brightness);
         loaded = true;
       });
     });
@@ -55,25 +55,25 @@ class EasyThemeState extends State<EasyTheme> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    data = widget.data(brightness);
+    _data = widget.data(_brightness);
   }
 
 
   @override
   void didUpdateWidget(EasyTheme oldWidget) {
     super.didUpdateWidget(oldWidget);
-    data = widget.data(brightness);
+    _data = widget.data(_brightness);
   }
 
   @override
   Widget build(BuildContext context) {
-    return !loaded? new SizedBox(): widget.themedWidgetBuilder(context, data);
+    return widget.themedWidgetBuilder(context, _data);
   }
 
   void setBrightness(Brightness brightness) async{
     setState(() {
-      this.data = widget.data(brightness);
-      this.brightness = brightness;
+      this._data = widget.data(brightness);
+      this._brightness = brightness;
     });
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool(_sharedPreferencesKey, brightness == Brightness.dark? true: false);
@@ -82,7 +82,7 @@ class EasyThemeState extends State<EasyTheme> {
 
   void setThemeData(ThemeData data) {
     setState(() {
-      this.data = data;
+      this._data = data;
     });
   }
 

@@ -4,21 +4,29 @@ import 'package:flutter_test/flutter_test.dart';
 
 
 var key = new ValueKey("ok");
-EasyThemeState state;
 
 var easyThemeKey = new GlobalKey<EasyThemeState>();
-void main() {
-  testWidgets('test finds state', (WidgetTester tester) async {
 
+void main() {
+  testWidgets('change brightness', (WidgetTester tester) async {
 
     await tester.pumpWidget(new MyApp());
 
-    expect(state, equals(null));
+    MaterialApp app = find.byType(MaterialApp).evaluate().first.widget;
+    expect(app.theme.brightness, equals(Brightness.dark));
+
 
     await tester.tap(find.byKey(key));
-    await tester.pump();
+    await tester.pumpAndSettle();
 
-    expect(state, isNotNull);
+    app = find.byType(MaterialApp).evaluate().first.widget;
+    expect(app.theme.brightness, equals(Brightness.light));
+
+    await tester.tap(find.byKey(key));
+    await tester.pumpAndSettle();
+
+    app = find.byType(MaterialApp).evaluate().first.widget;
+    expect(app.theme.brightness, equals(Brightness.dark));
 
   });
 
@@ -31,7 +39,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return new EasyTheme(
          key: easyThemeKey,
-        defaultBrightness: Brightness.light,
+        defaultBrightness: Brightness.dark,
         data: (brightness) {
            return new ThemeData(
           primarySwatch: Colors.indigo,
@@ -53,7 +61,7 @@ class ButtonPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new RaisedButton(onPressed: (){
-      state = EasyTheme.of(context);
+      EasyTheme.of(context).setBrightness(Theme.of(context).brightness == Brightness.dark? Brightness.light: Brightness.dark);
     },key: key,);
   }
 }
