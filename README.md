@@ -1,5 +1,5 @@
 # dynamic_theme
-## Dynamicall chaning your theme without hassle
+## Dynamically changing your theme without hassle
 
 ![](https://github.com/Norbert515/dynamic_theme/blob/master/assets/theme.png)
 
