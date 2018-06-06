@@ -5,7 +5,7 @@
 
 This packages manages changing your theme during runtime and persiting that theme.
 
-### I wrote a medium post about this, check it out here!
+### I wrote a medium post about this, check it out ![here](https://proandroiddev.com/how-to-dynamically-change-the-theme-in-flutter-698bd022d0f0)!
 
 ## Include in your project
 ```
