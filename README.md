@@ -65,7 +65,7 @@ Change the theme like this:
 
 ## Also included
 
-### A dialog widget to change the birghtness!
+### A dialog widget to change the brightness!
 ![](https://github.com/Norbert515/dynamic_theme/blob/master/assets/dialogs.png)
 
 ## Getting Started
