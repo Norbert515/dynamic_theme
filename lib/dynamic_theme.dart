@@ -36,6 +36,9 @@ class DynamicThemeState extends State<DynamicTheme> {
 
   bool loaded = false;
 
+  get data => _data;
+  get brightness => _brightness;
+
   @override
   void initState() {
     super.initState();
