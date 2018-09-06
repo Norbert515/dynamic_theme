@@ -22,7 +22,7 @@ if you want the dialog:
 ```
 import 'package:dynamic_theme/theme_switcher_widgets.dart';
 ```
-**If you are not able to import if, restart your IDE see: https://github.com/flutter/flutter/issues/17016**
+**If you are not able to import it, restart your IDE see: https://github.com/flutter/flutter/issues/17016**
 
 ## Usage
 Wrap your material app like this:
