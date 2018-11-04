@@ -1,6 +1,6 @@
 name: dynamic_theme
-description: Dynamic theming
-version: 0.0.1
+description: Changes the theme during runtime, also presists brightness settings across restarts
+version: 1.0.0
 author: "Norbert Kozsir <kozsir.norbert@gmail.com>"
 homepage: "https://github.com/Norbert515/dynamic_theme"
 

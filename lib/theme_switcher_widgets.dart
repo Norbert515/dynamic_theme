@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 
-
-
 class BrightnessSwitcherDialog extends StatelessWidget {
-
   final ValueChanged<Brightness> onSelectedTheme;
 
   const BrightnessSwitcherDialog({Key key, this.onSelectedTheme}) : super(key: key);
@@ -16,7 +13,7 @@ class BrightnessSwitcherDialog extends StatelessWidget {
         new RadioListTile<Brightness>(
           value: Brightness.light,
           groupValue: Theme.of(context).brightness,
-          onChanged: (value){
+          onChanged: (value) {
             onSelectedTheme(Brightness.light);
           },
           title: new Text("Light"),
@@ -24,7 +21,7 @@ class BrightnessSwitcherDialog extends StatelessWidget {
         new RadioListTile<Brightness>(
           value: Brightness.dark,
           groupValue: Theme.of(context).brightness,
-          onChanged: (value){
+          onChanged: (value) {
             onSelectedTheme(Brightness.dark);
           },
           title: new Text("Spooky  👻"),

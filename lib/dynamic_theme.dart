@@ -3,13 +3,11 @@ import 'dart:async';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 
-
 typedef Widget ThemedWidgetBuilder(BuildContext context, ThemeData data);
 
 typedef ThemeData ThemeDataWithBrightnessBuilder(Brightness brightness);
 
 class DynamicTheme extends StatefulWidget {
-
   final ThemedWidgetBuilder themedWidgetBuilder;
 
   final ThemeDataWithBrightnessBuilder data;
@@ -27,7 +25,6 @@ class DynamicTheme extends StatefulWidget {
 }
 
 class DynamicThemeState extends State<DynamicTheme> {
-
   ThemeData _data;
 
   Brightness _brightness;
@@ -37,6 +34,7 @@ class DynamicThemeState extends State<DynamicTheme> {
   bool loaded = false;
 
   get data => _data;
+
   get brightness => _brightness;
 
   @override
@@ -47,20 +45,18 @@ class DynamicThemeState extends State<DynamicTheme> {
 
     loadBrightness().then((dark) {
       setState(() {
-        _brightness = dark? Brightness.dark: Brightness.light;
+        _brightness = dark ? Brightness.dark : Brightness.light;
         _data = widget.data(_brightness);
         loaded = true;
       });
     });
   }
 
-
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     _data = widget.data(_brightness);
   }
-
 
   @override
   void didUpdateWidget(DynamicTheme oldWidget) {
@@ -73,15 +69,14 @@ class DynamicThemeState extends State<DynamicTheme> {
     return widget.themedWidgetBuilder(context, _data);
   }
 
-  void setBrightness(Brightness brightness) async{
+  void setBrightness(Brightness brightness) async {
     setState(() {
       this._data = widget.data(brightness);
       this._brightness = brightness;
     });
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setBool(_sharedPreferencesKey, brightness == Brightness.dark? true: false);
+    await prefs.setBool(_sharedPreferencesKey, brightness == Brightness.dark ? true : false);
   }
-
 
   void setThemeData(ThemeData data) {
     setState(() {
@@ -89,13 +84,8 @@ class DynamicThemeState extends State<DynamicTheme> {
     });
   }
 
-
-  Future<bool> loadBrightness() async{
+  Future<bool> loadBrightness() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return (prefs.getBool(_sharedPreferencesKey) ?? false);
   }
-
-
 }
-
-
