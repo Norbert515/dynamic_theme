@@ -64,6 +64,8 @@ Change the theme like this:
 
 ```
 
+When changing the brightness with `setBrightness`, it is additionally stored in the shared preferences.
+
 ## Also included
 
 ### A dialog widget to change the brightness!
