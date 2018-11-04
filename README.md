@@ -10,9 +10,7 @@ This packages manages changing your theme during runtime and persiting that them
 ## Include in your project
 ```
 dependencies:
-  dynamic_theme:
-    git:
-      url: git://github.com/Norbert515/dynamic_theme.git
+  dynamic_theme: ^1.0.0
 ```
 run packages get and import it
 ```
@@ -22,7 +20,6 @@ if you want the dialog:
 ```
 import 'package:dynamic_theme/theme_switcher_widgets.dart';
 ```
-**If you are not able to import it, restart your IDE see: https://github.com/flutter/flutter/issues/17016**
 
 ## Usage
 Wrap your material app like this:
