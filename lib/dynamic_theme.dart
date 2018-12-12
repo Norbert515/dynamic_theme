@@ -31,8 +31,6 @@ class DynamicThemeState extends State<DynamicTheme> {
 
   static const String _sharedPreferencesKey = "isDark";
 
-  bool loaded = false;
-
   get data => _data;
 
   get brightness => _brightness;
@@ -44,11 +42,12 @@ class DynamicThemeState extends State<DynamicTheme> {
     _data = widget.data(_brightness);
 
     loadBrightness().then((dark) {
-      setState(() {
-        _brightness = dark ? Brightness.dark : Brightness.light;
-        _data = widget.data(_brightness);
-        loaded = true;
-      });
+      if (dark != null) {
+        setState(() {
+          _brightness = dark ? Brightness.dark : Brightness.light;
+          _data = widget.data(_brightness);
+        });
+      }
     });
   }
 
@@ -86,6 +85,6 @@ class DynamicThemeState extends State<DynamicTheme> {
 
   Future<bool> loadBrightness() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return (prefs.getBool(_sharedPreferencesKey) ?? false);
+    return (prefs.getBool(_sharedPreferencesKey));
   }
 }
