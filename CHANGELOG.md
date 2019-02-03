@@ -1,3 +1,5 @@
-## [0.0.1] - TODO: Add release date.
+# CHANGE LOG
 
-* TODO: Describe initial release.
+## 1.0.1
+
+- Update local_storage dependency to latest 0.5.0
