@@ -3,21 +3,23 @@ import 'dart:async';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 
-typedef Widget ThemedWidgetBuilder(BuildContext context, ThemeData data);
+typedef ThemedWidgetBuilder = Widget Function(
+    BuildContext context, ThemeData data);
 
-typedef ThemeData ThemeDataWithBrightnessBuilder(Brightness brightness);
+typedef ThemeDataWithBrightnessBuilder = ThemeData Function(
+    Brightness brightness);
 
 class DynamicTheme extends StatefulWidget {
+  const DynamicTheme(
+      {Key key, this.data, this.themedWidgetBuilder, this.defaultBrightness})
+      : super(key: key);
+
   final ThemedWidgetBuilder themedWidgetBuilder;
-
   final ThemeDataWithBrightnessBuilder data;
-
   final Brightness defaultBrightness;
 
-  const DynamicTheme({Key key, this.data, this.themedWidgetBuilder, this.defaultBrightness}) : super(key: key);
-
   @override
-  DynamicThemeState createState() => new DynamicThemeState();
+  DynamicThemeState createState() => DynamicThemeState();
 
   static DynamicThemeState of(BuildContext context) {
     return context.ancestorStateOfType(const TypeMatcher<DynamicThemeState>());
@@ -29,13 +31,11 @@ class DynamicThemeState extends State<DynamicTheme> {
 
   Brightness _brightness;
 
-  static const String _sharedPreferencesKey = "isDark";
+  static const String _sharedPreferencesKey = 'isDark';
 
-  bool loaded = false;
+  ThemeData get data => _data;
 
-  get data => _data;
-
-  get brightness => _brightness;
+  Brightness get brightness => _brightness;
 
   @override
   void initState() {
@@ -43,12 +43,12 @@ class DynamicThemeState extends State<DynamicTheme> {
     _brightness = widget.defaultBrightness;
     _data = widget.data(_brightness);
 
-    loadBrightness().then((dark) {
-      setState(() {
-        _brightness = dark ? Brightness.dark : Brightness.light;
-        _data = widget.data(_brightness);
-        loaded = true;
-      });
+    loadBrightness().then((bool dark) {
+      _brightness = dark ? Brightness.dark : Brightness.light;
+      _data = widget.data(_brightness);
+      if (mounted) {
+        setState(() {});
+      }
     });
   }
 
@@ -64,28 +64,30 @@ class DynamicThemeState extends State<DynamicTheme> {
     _data = widget.data(_brightness);
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return widget.themedWidgetBuilder(context, _data);
-  }
-
-  void setBrightness(Brightness brightness) async {
+  Future<void> setBrightness(Brightness brightness) async {
     setState(() {
-      this._data = widget.data(brightness);
-      this._brightness = brightness;
+      _data = widget.data(brightness);
+      _brightness = brightness;
     });
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setBool(_sharedPreferencesKey, brightness == Brightness.dark ? true : false);
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(
+        _sharedPreferencesKey, brightness == Brightness.dark ? true : false);
   }
 
   void setThemeData(ThemeData data) {
     setState(() {
-      this._data = data;
+      _data = data;
     });
   }
 
   Future<bool> loadBrightness() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return (prefs.getBool(_sharedPreferencesKey) ?? false);
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getBool(_sharedPreferencesKey) ??
+        widget.defaultBrightness == Brightness.dark;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return widget.themedWidgetBuilder(context, _data);
   }
 }

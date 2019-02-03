@@ -2,19 +2,16 @@ import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+ValueKey<String> key = const ValueKey<String>('ok');
 
-var key = new ValueKey("ok");
-
-var easyThemeKey = new GlobalKey<DynamicThemeState>();
+GlobalKey<DynamicThemeState> easyThemeKey = GlobalKey<DynamicThemeState>();
 
 void main() {
   testWidgets('change brightness', (WidgetTester tester) async {
-
-    await tester.pumpWidget(new MyApp());
+    await tester.pumpWidget(MyApp());
 
     MaterialApp app = find.byType(MaterialApp).evaluate().first.widget;
     expect(app.theme.brightness, equals(Brightness.dark));
-
 
     await tester.tap(find.byKey(key));
     await tester.pumpAndSettle();
@@ -27,41 +24,42 @@ void main() {
 
     app = find.byType(MaterialApp).evaluate().first.widget;
     expect(app.theme.brightness, equals(Brightness.dark));
-
   });
-
-
 }
-
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return new DynamicTheme(
-         key: easyThemeKey,
+    return DynamicTheme(
+        key: easyThemeKey,
         defaultBrightness: Brightness.dark,
-        data: (brightness) {
-           return new ThemeData(
-          primarySwatch: Colors.indigo,
-          brightness: brightness,
-        );},
-        themedWidgetBuilder: (context, theme) {
-          return new MaterialApp(
+        data: (Brightness brightness) {
+          return ThemeData(
+            primarySwatch: Colors.indigo,
+            brightness: brightness,
+          );
+        },
+        themedWidgetBuilder: (BuildContext context, ThemeData theme) {
+          return MaterialApp(
             title: 'Flutter Demo',
             theme: theme,
-            home: new ButtonPage(),
+            home: ButtonPage(),
           );
-        }
-    );
+        });
   }
 }
-
 
 class ButtonPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return new RaisedButton(onPressed: (){
-      DynamicTheme.of(context).setBrightness(Theme.of(context).brightness == Brightness.dark? Brightness.light: Brightness.dark);
-    },key: key,);
+    return RaisedButton(
+      onPressed: () {
+        DynamicTheme.of(context).setBrightness(
+            Theme.of(context).brightness == Brightness.dark
+                ? Brightness.light
+                : Brightness.dark);
+      },
+      key: key,
+    );
   }
 }

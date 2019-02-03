@@ -1,30 +1,31 @@
 import 'package:flutter/material.dart';
 
 class BrightnessSwitcherDialog extends StatelessWidget {
-  final ValueChanged<Brightness> onSelectedTheme;
+  const BrightnessSwitcherDialog({Key key, this.onSelectedTheme})
+      : super(key: key);
 
-  const BrightnessSwitcherDialog({Key key, this.onSelectedTheme}) : super(key: key);
+  final ValueChanged<Brightness> onSelectedTheme;
 
   @override
   Widget build(BuildContext context) {
-    return new SimpleDialog(
+    return SimpleDialog(
       title: const Text('Select Theme'),
       children: <Widget>[
-        new RadioListTile<Brightness>(
+        RadioListTile<Brightness>(
           value: Brightness.light,
           groupValue: Theme.of(context).brightness,
-          onChanged: (value) {
+          onChanged: (Brightness value) {
             onSelectedTheme(Brightness.light);
           },
-          title: new Text("Light"),
+          title: const Text('Light'),
         ),
-        new RadioListTile<Brightness>(
+        RadioListTile<Brightness>(
           value: Brightness.dark,
           groupValue: Theme.of(context).brightness,
-          onChanged: (value) {
+          onChanged: (Brightness value) {
             onSelectedTheme(Brightness.dark);
           },
-          title: new Text("Spooky  👻"),
+          title: const Text('Spooky  👻'),
         ),
       ],
     );
