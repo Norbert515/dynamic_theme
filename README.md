@@ -10,7 +10,7 @@ This packages manages changing your theme during runtime and persiting that them
 ## Include in your project
 ```
 dependencies:
-  dynamic_theme: ^1.0.0
+  dynamic_theme: ^1.0.1
 ```
 run packages get and import it
 ```
