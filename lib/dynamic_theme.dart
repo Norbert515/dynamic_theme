@@ -9,6 +9,9 @@ typedef ThemedWidgetBuilder = Widget Function(
 typedef ThemeDataWithBrightnessBuilder = ThemeData Function(
     Brightness brightness);
 
+typedef SystemBrightnessBuilder = Widget Function(
+    BuildContext context, Brightness brightness);
+
 class DynamicTheme extends StatefulWidget {
   const DynamicTheme(
       {Key key, this.data, this.themedWidgetBuilder, this.defaultBrightness})
@@ -90,4 +93,14 @@ class DynamicThemeState extends State<DynamicTheme> {
   Widget build(BuildContext context) {
     return widget.themedWidgetBuilder(context, _data);
   }
+}
+
+class PlatformBrightness extends StatelessWidget {
+  const PlatformBrightness({Key key, @required this.builder}) : super(key: key);
+
+  final SystemBrightnessBuilder builder;
+
+  @override
+  Widget build(BuildContext context) =>
+      builder(context, MediaQuery.platformBrightnessOf(context));
 }
