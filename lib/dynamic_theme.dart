@@ -74,6 +74,13 @@ class DynamicThemeState extends State<DynamicTheme> {
         _sharedPreferencesKey, brightness == Brightness.dark ? true : false);
   }
 
+  Future<void> toggleBrightness() async {
+    if (_brightness == Brightness.dark)
+      await setBrightness(Brightness.light);
+    else
+      await setBrightness(Brightness.dark);
+  }
+
   void setThemeData(ThemeData data) {
     setState(() {
       _data = data;
