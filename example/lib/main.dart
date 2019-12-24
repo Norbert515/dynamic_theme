@@ -10,22 +10,22 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return DynamicTheme(
         defaultBrightness: Brightness.light,
-        data: (brightness) => ThemeData(
+        data: (Brightness brightness) => ThemeData(
               primarySwatch: Colors.indigo,
               brightness: brightness,
             ),
-        themedWidgetBuilder: (context, theme) {
+        themedWidgetBuilder: (BuildContext context, ThemeData theme) {
           return MaterialApp(
             title: 'Flutter Demo',
             theme: theme,
-            home: MyHomePage(title: 'Flutter Demo Home Page'),
+            home: const MyHomePage(title: 'Flutter Demo Home Page'),
           );
         });
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+ const  MyHomePage({Key key, this.title}) : super(key: key);
   final String title;
 
   @override
@@ -37,7 +37,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Easy Theme"),
+        title: const Text('Easy Theme'),
       ),
       body: Center(
         child: Column(
@@ -45,11 +45,11 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             RaisedButton(
               onPressed: changeBrightness,
-              child: const Text("Change brightness"),
+              child: const Text('Change brightness'),
             ),
             RaisedButton(
               onPressed: changeColor,
-              child: const Text("Change color"),
+              child: const Text('Change color'),
             ),
           ],
         ),
@@ -59,11 +59,11 @@ class _MyHomePageState extends State<MyHomePage> {
         child: const Icon(Icons.add),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: [
+        items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-              icon: Icon(Icons.insert_drive_file), title: Text("Tab 1")),
+              icon: Icon(Icons.insert_drive_file), title: const Text('Tab 1')),
           BottomNavigationBarItem(
-              icon: Icon(Icons.show_chart), title: Text("Tab 2")),
+              icon: Icon(Icons.show_chart), title: const Text('Tab 2')),
         ],
       ),
     );
@@ -72,9 +72,9 @@ class _MyHomePageState extends State<MyHomePage> {
   void showChooser() {
     showDialog<void>(
         context: context,
-        builder: (context) {
+        builder: (BuildContext context) {
           return BrightnessSwitcherDialog(
-            onSelectedTheme: (brightness) {
+            onSelectedTheme: (Brightness brightness) {
               DynamicTheme.of(context).setBrightness(brightness);
             },
           );
