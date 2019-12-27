@@ -101,6 +101,13 @@ class PlatformBrightness extends StatelessWidget {
   final SystemBrightnessBuilder builder;
 
   @override
-  Widget build(BuildContext context) =>
-      builder(context, MediaQuery.platformBrightnessOf(context));
+  Widget build(BuildContext context) {
+    final MediaQueryData mediaQuery = MediaQuery.of(context, nullOk: true);
+    if (mediaQuery == null) {
+      throw FlutterError('No MediaQuery widget found within this context. \n'
+          'PlatformBrightness widgets must be placed below the WidgetsApp widget (MaterialApp, CupertinoApp or WidgetsApp) \n'
+          'in order to return an accurate platform brightness.');
+    }
+    return builder(context, MediaQuery.platformBrightnessOf(context));
+  }
 }

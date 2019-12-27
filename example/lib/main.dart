@@ -14,11 +14,14 @@ class MyApp extends StatelessWidget {
               brightness: brightness,
             ),
         themedWidgetBuilder: (BuildContext context, ThemeData theme) {
-          return MaterialApp(
-            title: 'Flutter Demo',
-            theme: theme,
-            home: MyHomePage(title: 'Flutter Demo Home Page'),
-          );
+          return PlatformBrightness(
+              builder: (BuildContext context, Brightness platformBrightness) {
+            return MaterialApp(
+              title: 'Flutter Demo',
+              theme: theme,
+              home: MyHomePage(title: 'Flutter Demo Home Page'),
+            );
+          });
         });
   }
 }
