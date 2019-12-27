@@ -9,6 +9,9 @@ typedef ThemedWidgetBuilder = Widget Function(
 typedef ThemeDataWithBrightnessBuilder = ThemeData Function(
     Brightness brightness);
 
+typedef SystemBrightnessBuilder = Widget Function(
+    BuildContext context, Brightness brightness);
+
 class DynamicTheme extends StatefulWidget {
   const DynamicTheme(
       {Key key, this.data, this.themedWidgetBuilder, this.defaultBrightness})
@@ -96,5 +99,22 @@ class DynamicThemeState extends State<DynamicTheme> {
   @override
   Widget build(BuildContext context) {
     return widget.themedWidgetBuilder(context, _data);
+  }
+}
+
+class PlatformBrightness extends StatelessWidget {
+  const PlatformBrightness({Key key, @required this.builder}) : super(key: key);
+
+  final SystemBrightnessBuilder builder;
+
+  @override
+  Widget build(BuildContext context) {
+    final MediaQueryData mediaQuery = MediaQuery.of(context, nullOk: true);
+    if (mediaQuery == null) {
+      throw FlutterError('No MediaQuery widget found within this context. \n'
+          'PlatformBrightness widgets must be placed below the WidgetsApp widget (MaterialApp, CupertinoApp or WidgetsApp) \n'
+          'in order to return an accurate platform brightness.');
+    }
+    return builder(context, MediaQuery.platformBrightnessOf(context));
   }
 }

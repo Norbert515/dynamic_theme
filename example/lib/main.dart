@@ -2,7 +2,6 @@ import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:dynamic_theme/theme_switcher_widgets.dart';
 import 'package:flutter/material.dart';
 
-
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -10,16 +9,19 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return DynamicTheme(
         defaultBrightness: Brightness.light,
-        data: (brightness) => ThemeData(
+        data: (Brightness brightness) => ThemeData(
               primarySwatch: Colors.indigo,
               brightness: brightness,
             ),
-        themedWidgetBuilder: (context, theme) {
-          return MaterialApp(
-            title: 'Flutter Demo',
-            theme: theme,
-            home: MyHomePage(title: 'Flutter Demo Home Page'),
-          );
+        themedWidgetBuilder: (BuildContext context, ThemeData theme) {
+          return PlatformBrightness(
+              builder: (BuildContext context, Brightness platformBrightness) {
+            return MaterialApp(
+              title: 'Flutter Demo',
+              theme: theme,
+              home: MyHomePage(title: 'Flutter Demo Home Page'),
+            );
+          });
         });
   }
 }
@@ -39,20 +41,31 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text("Easy Theme"),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            RaisedButton(
-              onPressed: changeBrightness,
-              child: const Text("Change brightness"),
+      body: PlatformBrightness(
+        builder: (BuildContext context, Brightness platformBrightness) {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  'Platform brightness: ${platformBrightness == Brightness.light ? 'light' : 'dark'}',
+                  style: TextStyle(fontSize: 30),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 10),
+                ),
+                RaisedButton(
+                  onPressed: changeBrightness,
+                  child: const Text("Change brightness"),
+                ),
+                RaisedButton(
+                  onPressed: changeColor,
+                  child: const Text("Change color"),
+                ),
+              ],
             ),
-            RaisedButton(
-              onPressed: changeColor,
-              child: const Text("Change color"),
-            ),
-          ],
-        ),
+          );
+        },
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: showChooser,

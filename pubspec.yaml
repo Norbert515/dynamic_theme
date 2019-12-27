@@ -1,6 +1,7 @@
 name: dynamic_theme
-description: Changes the theme during runtime, also presists brightness settings across restarts
-version: 1.0.1
+description: A widget that allows you to change your app's theme during runtime.
+  It also persists brightness settings across restarts
+version: 1.1.0
 author: 'Norbert Kozsir <kozsir.norbert@gmail.com>'
 homepage: 'https://github.com/Norbert515/dynamic_theme'
 
@@ -11,7 +12,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  shared_preferences: '^0.5.0'
+  shared_preferences: ^0.5.6
 
 dev_dependencies:
   flutter_test:
