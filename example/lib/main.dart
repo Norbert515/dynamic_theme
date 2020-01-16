@@ -2,30 +2,31 @@ import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:dynamic_theme/theme_switcher_widgets.dart';
 import 'package:flutter/material.dart';
 
-
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DynamicTheme(
-        defaultBrightness: Brightness.light,
-        data: (brightness) => ThemeData(
-              primarySwatch: Colors.indigo,
-              brightness: brightness,
-            ),
-        themedWidgetBuilder: (context, theme) {
-          return MaterialApp(
-            title: 'Flutter Demo',
-            theme: theme,
-            home: MyHomePage(title: 'Flutter Demo Home Page'),
-          );
-        });
+      defaultBrightness: Brightness.light,
+      data: (Brightness brightness) => ThemeData(
+        primarySwatch: Colors.indigo,
+        brightness: brightness,
+      ),
+      loadBrightnessOnStart: true,
+      themedWidgetBuilder: (BuildContext context, ThemeData theme) {
+        return MaterialApp(
+          title: 'Flutter Demo',
+          theme: theme,
+          home: const MyHomePage(title: 'Flutter Demo Home Page'),
+        );
+      },
+    );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  const MyHomePage({Key key, this.title}) : super(key: key);
   final String title;
 
   @override
@@ -37,19 +38,19 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Easy Theme"),
+        title: const Text('Easy Theme'),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             RaisedButton(
-              onPressed: changeBrightness,
-              child: const Text("Change brightness"),
+              onPressed: DynamicTheme.of(context).toggleBrightness,
+              child: const Text('Toggle brightness'),
             ),
             RaisedButton(
               onPressed: changeColor,
-              child: const Text("Change color"),
+              child: const Text('Change color'),
             ),
           ],
         ),
@@ -59,11 +60,15 @@ class _MyHomePageState extends State<MyHomePage> {
         child: const Icon(Icons.add),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: [
+        items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-              icon: Icon(Icons.insert_drive_file), title: Text("Tab 1")),
+            icon: Icon(Icons.insert_drive_file),
+            title: const Text('Tab 1'),
+          ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.show_chart), title: Text("Tab 2")),
+            icon: Icon(Icons.show_chart),
+            title: const Text('Tab 2'),
+          ),
         ],
       ),
     );
@@ -71,27 +76,24 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void showChooser() {
     showDialog<void>(
-        context: context,
-        builder: (context) {
-          return BrightnessSwitcherDialog(
-            onSelectedTheme: (brightness) {
-              DynamicTheme.of(context).setBrightness(brightness);
-            },
-          );
-        });
-  }
-
-  void changeBrightness() {
-    DynamicTheme.of(context).setBrightness(
-        Theme.of(context).brightness == Brightness.dark
-            ? Brightness.light
-            : Brightness.dark);
+      context: context,
+      builder: (BuildContext context) {
+        return BrightnessSwitcherDialog(
+          onSelectedTheme: (Brightness brightness) {
+            DynamicTheme.of(context).setBrightness(brightness);
+          },
+        );
+      },
+    );
   }
 
   void changeColor() {
-    DynamicTheme.of(context).setThemeData(ThemeData(
+    DynamicTheme.of(context).setThemeData(
+      ThemeData(
         primaryColor: Theme.of(context).primaryColor == Colors.indigo
             ? Colors.red
-            : Colors.indigo));
+            : Colors.indigo,
+      ),
+    );
   }
 }
