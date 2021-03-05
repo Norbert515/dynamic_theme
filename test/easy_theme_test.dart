@@ -44,11 +44,12 @@ class MyApp extends StatelessWidget {
 class ButtonPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return RaisedButton(
+    return ElevatedButton(
       onPressed: () {
         state = DynamicTheme.of(context);
       },
       key: key,
+      child: Container(),
     );
   }
 }

@@ -52,7 +52,7 @@ class MyApp extends StatelessWidget {
 class ButtonPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return RaisedButton(
+    return ElevatedButton(
       onPressed: () {
         DynamicTheme.of(context).setBrightness(
             Theme.of(context).brightness == Brightness.dark
@@ -60,6 +60,7 @@ class ButtonPage extends StatelessWidget {
                 : Brightness.dark);
       },
       key: key,
+      child: Container(),
     );
   }
 }
