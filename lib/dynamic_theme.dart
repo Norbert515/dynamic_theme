@@ -3,17 +3,15 @@ import 'dart:async';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 
-typedef ThemedWidgetBuilder = Widget Function(
-    BuildContext context, ThemeData data);
+typedef ThemedWidgetBuilder = Widget Function(BuildContext context, ThemeData data);
 
-typedef ThemeDataWithBrightnessBuilder = ThemeData Function(
-    Brightness brightness);
+typedef ThemeDataWithBrightnessBuilder = ThemeData Function(Brightness brightness);
 
 class DynamicTheme extends StatefulWidget {
   const DynamicTheme({
-    Key key,
-    this.data,
-    this.themedWidgetBuilder,
+    Key? key,
+    required this.data,
+    required this.themedWidgetBuilder,
     this.defaultBrightness = Brightness.light,
     this.loadBrightnessOnStart = true,
   }) : super(key: key);
@@ -37,17 +35,17 @@ class DynamicTheme extends StatefulWidget {
   @override
   DynamicThemeState createState() => DynamicThemeState();
 
-  static DynamicThemeState of(BuildContext context) {
-    return context.findAncestorStateOfType<State<DynamicTheme>>();
+  static DynamicThemeState? of(BuildContext context) {
+    return context.findAncestorStateOfType<DynamicThemeState>();
   }
 }
 
 class DynamicThemeState extends State<DynamicTheme> {
-  ThemeData _themeData;
+  late ThemeData _themeData;
 
-  Brightness _brightness;
+  Brightness _brightness = Brightness.light;
 
-  bool _shouldLoadBrightness;
+  bool _shouldLoadBrightness = true;
 
   static const String _sharedPreferencesKey = 'isDark';
 
