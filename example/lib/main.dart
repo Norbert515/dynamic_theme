@@ -44,11 +44,11 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            RaisedButton(
+            ElevatedButton(
               onPressed: DynamicTheme.of(context).toggleBrightness,
               child: const Text('Toggle brightness'),
             ),
-            RaisedButton(
+            ElevatedButton(
               onPressed: changeColor,
               child: const Text('Change color'),
             ),
@@ -60,14 +60,14 @@ class _MyHomePageState extends State<MyHomePage> {
         child: const Icon(Icons.add),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: <BottomNavigationBarItem>[
+        items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.insert_drive_file),
-            title: const Text('Tab 1'),
+            label: 'Tab 1',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.show_chart),
-            title: const Text('Tab 2'),
+            label: 'Tab 2',
           ),
         ],
       ),

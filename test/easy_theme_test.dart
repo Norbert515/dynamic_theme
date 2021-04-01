@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 ValueKey<String> key = const ValueKey<String>('ok');
-DynamicThemeState state;
+DynamicThemeState? state;
 GlobalKey<DynamicThemeState> easyThemeKey = GlobalKey<DynamicThemeState>();
 
 void main() {
@@ -44,11 +44,12 @@ class MyApp extends StatelessWidget {
 class ButtonPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return RaisedButton(
+    return ElevatedButton(
       onPressed: () {
         state = DynamicTheme.of(context);
       },
       key: key,
+      child: Container(),
     );
   }
 }

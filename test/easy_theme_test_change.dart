@@ -10,20 +10,20 @@ void main() {
   testWidgets('change brightness', (WidgetTester tester) async {
     await tester.pumpWidget(MyApp());
 
-    MaterialApp app = find.byType(MaterialApp).evaluate().first.widget;
-    expect(app.theme.brightness, equals(Brightness.dark));
+    MaterialApp app = find.byType(MaterialApp).evaluate().first.widget as MaterialApp;
+    expect(app.theme?.brightness, equals(Brightness.dark));
 
     await tester.tap(find.byKey(key));
     await tester.pumpAndSettle();
 
-    app = find.byType(MaterialApp).evaluate().first.widget;
-    expect(app.theme.brightness, equals(Brightness.light));
+    app = find.byType(MaterialApp).evaluate().first.widget as MaterialApp;
+    expect(app.theme?.brightness, equals(Brightness.light));
 
     await tester.tap(find.byKey(key));
     await tester.pumpAndSettle();
 
-    app = find.byType(MaterialApp).evaluate().first.widget;
-    expect(app.theme.brightness, equals(Brightness.dark));
+    app = find.byType(MaterialApp).evaluate().first.widget as MaterialApp;
+    expect(app.theme?.brightness, equals(Brightness.dark));
   });
 }
 
@@ -52,14 +52,15 @@ class MyApp extends StatelessWidget {
 class ButtonPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return RaisedButton(
+    return ElevatedButton(
       onPressed: () {
-        DynamicTheme.of(context).setBrightness(
+        DynamicTheme.of(context)?.setBrightness(
             Theme.of(context).brightness == Brightness.dark
                 ? Brightness.light
                 : Brightness.dark);
       },
       key: key,
+      child: Container(),
     );
   }
 }
