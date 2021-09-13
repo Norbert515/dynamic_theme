@@ -3,15 +3,13 @@ import 'dart:async';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 
-typedef ThemedWidgetBuilder = Widget Function(
-    BuildContext context, ThemeData data);
+typedef ThemedWidgetBuilder = Widget Function(BuildContext context, ThemeData data);
 
-typedef ThemeDataWithBrightnessBuilder = ThemeData Function(
-    Brightness brightness);
+typedef ThemeDataWithBrightnessBuilder = ThemeData Function(Brightness brightness);
 
 class DynamicTheme extends StatefulWidget {
   const DynamicTheme({
-    Key key,
+    Key? key,
     this.data,
     this.themedWidgetBuilder,
     this.defaultBrightness = Brightness.light,
@@ -19,10 +17,10 @@ class DynamicTheme extends StatefulWidget {
   }) : super(key: key);
 
   /// Builder that gets called when the brightness or theme changes
-  final ThemedWidgetBuilder themedWidgetBuilder;
+  final ThemedWidgetBuilder? themedWidgetBuilder;
 
   /// Callback that returns the latest brightness
-  final ThemeDataWithBrightnessBuilder data;
+  final ThemeDataWithBrightnessBuilder? data;
 
   /// The default brightness on start
   ///
@@ -38,16 +36,16 @@ class DynamicTheme extends StatefulWidget {
   DynamicThemeState createState() => DynamicThemeState();
 
   static DynamicThemeState of(BuildContext context) {
-    return context.findAncestorStateOfType<State<DynamicTheme>>();
+    return context.findAncestorStateOfType<State<DynamicTheme>>() as DynamicThemeState;
   }
 }
 
 class DynamicThemeState extends State<DynamicTheme> {
-  ThemeData _themeData;
+  late ThemeData _themeData;
 
-  Brightness _brightness;
+  Brightness _brightness = Brightness.light;
 
-  bool _shouldLoadBrightness;
+  late bool _shouldLoadBrightness;
 
   static const String _sharedPreferencesKey = 'isDark';
 
@@ -55,7 +53,7 @@ class DynamicThemeState extends State<DynamicTheme> {
   ThemeData get themeData => _themeData;
 
   /// Get the current `Brightness`
-  Brightness get brightness => _brightness;
+  Brightness? get brightness => _brightness;
 
   @override
   void initState() {
@@ -71,7 +69,7 @@ class DynamicThemeState extends State<DynamicTheme> {
     }
     final bool isDark = await _getBrightnessBool();
     _brightness = isDark ? Brightness.dark : Brightness.light;
-    _themeData = widget.data(_brightness);
+    _themeData = widget.data!(_brightness);
     if (mounted) {
       setState(() {});
     }
@@ -80,20 +78,20 @@ class DynamicThemeState extends State<DynamicTheme> {
   /// Initializes the variables
   void _initVariables() {
     _brightness = widget.defaultBrightness;
-    _themeData = widget.data(_brightness);
+    _themeData = widget.data!(_brightness);
     _shouldLoadBrightness = widget.loadBrightnessOnStart;
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _themeData = widget.data(_brightness);
+    _themeData = widget.data!(_brightness);
   }
 
   @override
   void didUpdateWidget(DynamicTheme oldWidget) {
     super.didUpdateWidget(oldWidget);
-    _themeData = widget.data(_brightness);
+    _themeData = widget.data!(_brightness);
   }
 
   /// Sets the new brightness
@@ -101,7 +99,7 @@ class DynamicThemeState extends State<DynamicTheme> {
   Future<void> setBrightness(Brightness brightness) async {
     // Update state with new values
     setState(() {
-      _themeData = widget.data(brightness);
+      _themeData = widget.data!(brightness);
       _brightness = brightness;
     });
     // Save the brightness
@@ -133,8 +131,7 @@ class DynamicThemeState extends State<DynamicTheme> {
     }
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     // Saves whether or not the provided brightness is dark
-    await prefs.setBool(
-        _sharedPreferencesKey, brightness == Brightness.dark ? true : false);
+    await prefs.setBool(_sharedPreferencesKey, brightness == Brightness.dark ? true : false);
   }
 
   /// Returns a boolean that gives you the latest brightness
@@ -142,12 +139,11 @@ class DynamicThemeState extends State<DynamicTheme> {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     // Gets the bool stored in prefs
     // Or returns whether or not the `defaultBrightness` is dark
-    return prefs.getBool(_sharedPreferencesKey) ??
-        widget.defaultBrightness == Brightness.dark;
+    return prefs.getBool(_sharedPreferencesKey) ?? widget.defaultBrightness == Brightness.dark;
   }
 
   @override
   Widget build(BuildContext context) {
-    return widget.themedWidgetBuilder(context, _themeData);
+    return widget.themedWidgetBuilder!(context, _themeData);
   }
 }
