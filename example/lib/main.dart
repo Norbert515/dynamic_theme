@@ -55,6 +55,7 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: DynamicTheme.of(context).toggleThemeMode,
               child: const Text('Toggle brightness'),
             ),
+            const SizedBox(height: 16),
             ElevatedButton(
               onPressed: changeColor,
               child: const Text('Change color'),
