@@ -4,6 +4,12 @@
 
 **BREAKING CHANGES**
 
+* Now use the `ThemeMode` instead of `Brightness`.
+* `ThemedWidgetBuilder themedWidgetBuilder` takes now the following parameters: `BuildContext, ThemeMode, ThemeData`.
+* `data` parameter is now optional and has the type `ThemeDataWithThemeModeBuilder`.
+* `defaultBrightness` became `defaultThemeMode` and use by default `ThemeMode.system`.
+* `loadBrightnessOnStart` became `loadThemeOnStart`.
+
 ## 1.0.1
 
 * Update local_storage dependency to latest 0.5.0
