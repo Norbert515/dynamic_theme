@@ -1,4 +1,5 @@
 # dynamic_theme
+
 ## Dynamically changing your theme without hassle
 
 ![](https://github.com/Norbert515/dynamic_theme/blob/master/assets/theme.png)
@@ -8,23 +9,23 @@ This packages manages changing your theme during runtime and persiting that them
 ### I wrote a medium post about this, check it out [here](https://proandroiddev.com/how-to-dynamically-change-the-theme-in-flutter-698bd022d0f0)!
 
 ## Include in your project
+
 ```
 dependencies:
-  dynamic_theme: ^1.0.1
+  dynamic_theme: ^2.0.0
 ```
+
 run packages get and import it
+
 ```
 import 'package:dynamic_theme/dynamic_theme.dart';
 ```
-if you want the dialog:
-```
-import 'package:dynamic_theme/theme_switcher_widgets.dart';
-```
 
 ## Usage
-Wrap your material app like this:
-```dart
 
+Wrap your material app like this:
+
+```dart
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -44,10 +45,10 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
 ```
 
 Change the theme like this:
+
 ```dart
   void changeBrightness() {
     DynamicTheme.of(context).setBrightness(Theme.of(context).brightness == Brightness.dark? Brightness.light: Brightness.dark);
@@ -61,11 +62,12 @@ Change the theme like this:
 
 ```
 
-When changing the brightness with `setBrightness`, it is additionally stored in the shared preferences.
+When changing the brightness with `setBrightness` , it is additionally stored in the shared preferences.
 
 ## Also included
 
 ### A dialog widget to change the brightness!
+
 ![](https://github.com/Norbert515/dynamic_theme/blob/master/assets/dialogs.png)
 
 ## Getting Started

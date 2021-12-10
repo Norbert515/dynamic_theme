@@ -9,6 +9,7 @@
 * `data` parameter is now optional and has the type `ThemeDataWithThemeModeBuilder`.
 * `defaultBrightness` became `defaultThemeMode` and use by default `ThemeMode.system`.
 * `loadBrightnessOnStart` became `loadThemeOnStart`.
+* import `package:dynamic_theme/dynamic_theme.dart` for both `DynamicTheme` and `BrightnessSwitcherDialog`.
 
 ## 1.0.1
 
