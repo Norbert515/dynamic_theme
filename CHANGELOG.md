@@ -4,6 +4,7 @@
 
 **BREAKING CHANGES**
 
+* Migration to null-safety
 * Now use the `ThemeMode` instead of `Brightness`.
 * `ThemedWidgetBuilder themedWidgetBuilder` takes now the following parameters: `BuildContext, ThemeMode, ThemeData`.
 * `data` parameter is now optional and has the type `ThemeDataWithThemeModeBuilder`.
