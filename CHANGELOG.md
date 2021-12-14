@@ -4,8 +4,8 @@
 
 **BREAKING CHANGES**
 
-* Migration to null-safety
-* Now use the `ThemeMode` instead of `Brightness`.
+* Migration to null-safety ([#62](https://github.com/Norbert515/dynamic_theme/issues/62), [#60](https://github.com/Norbert515/dynamic_theme/issues/60), [#59](https://github.com/Norbert515/dynamic_theme/issues/59))
+* Now use the `ThemeMode` instead of `Brightness` ([#49](https://github.com/Norbert515/dynamic_theme/issues/49)).
 * `ThemedWidgetBuilder themedWidgetBuilder` takes now the following parameters: `BuildContext, ThemeMode, ThemeData`.
 * `data` parameter is now optional and has the type `ThemeDataWithThemeModeBuilder`.
 * `defaultBrightness` became `defaultThemeMode` and use by default `ThemeMode.system`.
