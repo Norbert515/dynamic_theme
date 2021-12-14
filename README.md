@@ -72,18 +72,18 @@ class MyApp extends StatelessWidget {
 Change the theme like this:
 
 ```dart
-void changeBrightness() {
-  DynamicTheme.of(context).setBrightness(Theme.of(context).brightness == Brightness.dark? Brightness.light: Brightness.dark);
+void changeThemeMode() {
+  DynamicTheme.of(context).setThemeMode(Theme.of(context).brightness == Brightness.dark ? ThemeMode.light : ThemeMode.dark);
 }
   
 void changeColor() {
   DynamicTheme.of(context).setThemeData(ThemeData(
-    primaryColor: Theme.of(context).primaryColor == Colors.indigo? Colors.red: Colors.indigo
+    primaryColor: Theme.of(context).primaryColor == Colors.indigo ? Colors.red : Colors.indigo
   ));
 }
 ```
 
-When changing the brightness with `setBrightness` , it is additionally stored in the shared preferences.
+When changing the theme mode with `setThemeMode` , it is additionally stored in the shared preferences.
 
 ## Also included
 
