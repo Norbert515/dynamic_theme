@@ -8,9 +8,10 @@ GlobalKey<DynamicThemeState> easyThemeKey = GlobalKey<DynamicThemeState>();
 
 void main() {
   testWidgets('change brightness', (WidgetTester tester) async {
-    await tester.pumpWidget(MyApp());
+    await tester.pumpWidget(const MyApp());
 
-    MaterialApp app = find.byType(MaterialApp).evaluate().first.widget as MaterialApp;
+    MaterialApp app =
+        find.byType(MaterialApp).evaluate().first.widget as MaterialApp;
     expect(app.theme?.brightness, equals(Brightness.dark));
 
     await tester.tap(find.byKey(key));
@@ -28,36 +29,48 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return DynamicTheme(
-        key: easyThemeKey,
-        defaultBrightness: Brightness.dark,
-        data: (Brightness brightness) {
-          return ThemeData(
-            primarySwatch: Colors.indigo,
-            brightness: brightness,
-          );
-        },
-        themedWidgetBuilder: (BuildContext context, ThemeData theme) {
-          return MaterialApp(
-            title: 'Flutter Demo',
-            theme: theme,
-            home: ButtonPage(),
-          );
-        });
+      key: easyThemeKey,
+      defaultThemeMode: ThemeMode.dark,
+      data: (ThemeMode mode) {
+        return ThemeData(
+          primarySwatch: Colors.indigo,
+          brightness:
+              mode == ThemeMode.dark ? Brightness.dark : Brightness.light,
+        );
+      },
+      themedWidgetBuilder: (
+        BuildContext context,
+        ThemeMode mode,
+        ThemeData? theme,
+      ) {
+        return MaterialApp(
+          themeMode: mode,
+          title: 'Flutter Demo',
+          theme: theme,
+          home: const ButtonPage(),
+        );
+      },
+    );
   }
 }
 
 class ButtonPage extends StatelessWidget {
+  const ButtonPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
-        DynamicTheme.of(context)?.setBrightness(
-            Theme.of(context).brightness == Brightness.dark
-                ? Brightness.light
-                : Brightness.dark);
+        DynamicTheme.of(context).setThemeMode(
+          Theme.of(context).brightness == Brightness.dark
+              ? ThemeMode.light
+              : ThemeMode.dark,
+        );
       },
       key: key,
       child: Container(),

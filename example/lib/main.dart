@@ -1,23 +1,29 @@
 import 'package:dynamic_theme/dynamic_theme.dart';
-import 'package:dynamic_theme/theme_switcher_widgets.dart';
 import 'package:flutter/material.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return DynamicTheme(
-      defaultBrightness: Brightness.light,
-      data: (Brightness brightness) => ThemeData(
+      defaultThemeMode: ThemeMode.light,
+      loadThemeOnStart: true,
+      data: (mode) => ThemeData(
         primarySwatch: Colors.indigo,
-        brightness: brightness,
+        brightness: mode == ThemeMode.dark ? Brightness.dark : Brightness.light,
       ),
-      loadBrightnessOnStart: true,
-      themedWidgetBuilder: (BuildContext context, ThemeData theme) {
+      themedWidgetBuilder: (
+        BuildContext context,
+        ThemeMode mode,
+        ThemeData? data,
+      ) {
         return MaterialApp(
+          themeMode: mode,
           title: 'Flutter Demo',
-          theme: theme,
+          theme: data,
           home: const MyHomePage(title: 'Flutter Demo Home Page'),
         );
       },
@@ -26,7 +32,8 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key key, this.title}) : super(key: key);
+  const MyHomePage({Key? key, required this.title}) : super(key: key);
+
   final String title;
 
   @override
@@ -45,9 +52,10 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             ElevatedButton(
-              onPressed: DynamicTheme.of(context).toggleBrightness,
+              onPressed: DynamicTheme.of(context).toggleThemeMode,
               child: const Text('Toggle brightness'),
             ),
+            const SizedBox(height: 16),
             ElevatedButton(
               onPressed: changeColor,
               child: const Text('Change color'),
@@ -79,8 +87,8 @@ class _MyHomePageState extends State<MyHomePage> {
       context: context,
       builder: (BuildContext context) {
         return BrightnessSwitcherDialog(
-          onSelectedTheme: (Brightness brightness) {
-            DynamicTheme.of(context).setBrightness(brightness);
+          onSelectedTheme: (ThemeMode mode) {
+            DynamicTheme.of(context).setThemeMode(mode);
           },
         );
       },

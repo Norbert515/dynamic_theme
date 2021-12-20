@@ -1,71 +1,94 @@
 # dynamic_theme
+
 ## Dynamically changing your theme without hassle
 
 ![](https://github.com/Norbert515/dynamic_theme/blob/master/assets/theme.png)
 
 This packages manages changing your theme during runtime and persiting that theme.
 
-### I wrote a medium post about this, check it out [here](https://proandroiddev.com/how-to-dynamically-change-the-theme-in-flutter-698bd022d0f0)!
-
 ## Include in your project
+
 ```
 dependencies:
-  dynamic_theme: ^1.0.1
+  dynamic_theme: ^2.0.0
 ```
+
 run packages get and import it
+
 ```
 import 'package:dynamic_theme/dynamic_theme.dart';
 ```
-if you want the dialog:
-```
-import 'package:dynamic_theme/theme_switcher_widgets.dart';
-```
 
 ## Usage
-Wrap your material app like this:
-```dart
 
+### Light & Dark mode
+
+If all you want is to change the theme between light and dark you can just use the `themeMode` parameter and set the light theme with the `theme` property and dark theme with the `darkTheme` property.
+
+```dart
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return new DynamicTheme(
-      defaultBrightness: Brightness.light,
-      data: (brightness) => new ThemeData(
-        primarySwatch: Colors.indigo,
-        brightness: brightness,
-      ),
-      themedWidgetBuilder: (context, theme) {
-        return new MaterialApp(
+    return DynamicTheme(
+      themedWidgetBuilder: (_, themeMode, __) {
+        return MaterialApp(
           title: 'Flutter Demo',
-          theme: theme,
-          home: new MyHomePage(title: 'Flutter Demo Home Page'),
+          themeMode: themeMode,
+          theme: ThemeData.light(),
+          darkTheme: ThemeData.dark(),
+          home: MyHomePage(title: 'Flutter Demo Home Page'),
         );
       }
     );
   }
 }
+```
 
+### Custom theme
+
+If you want to apply some custom `ThemeData` you can use the `data` parameter to provide a custom `ThemeData` and rely on the `themeData` from the `themedWidgetBuilder` .
+
+```dart
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return DynamicTheme(
+      data: (themeMode) => ThemeData(
+        primarySwatch: Colors.indigo,
+        brightness: themeMode == ThemeMode.dark ? Brightness.dark : Brightness.light,
+      ),
+      themedWidgetBuilder: (_, __, themeData) {
+        return MaterialApp(
+          title: 'Flutter Demo',
+          theme: themeData,
+          home: MyHomePage(title: 'Flutter Demo Home Page'),
+        );
+      }
+    );
+  }
+}
 ```
 
 Change the theme like this:
-```dart
-  void changeBrightness() {
-    DynamicTheme.of(context).setBrightness(Theme.of(context).brightness == Brightness.dark? Brightness.light: Brightness.dark);
-  }
-  
-  void changeColor() {
-    DynamicTheme.of(context).setThemeData(new ThemeData(
-        primaryColor: Theme.of(context).primaryColor == Colors.indigo? Colors.red: Colors.indigo
-    ));
-  }
 
+```dart
+void changeThemeMode() {
+  DynamicTheme.of(context).setThemeMode(Theme.of(context).brightness == Brightness.dark ? ThemeMode.light : ThemeMode.dark);
+}
+  
+void changeColor() {
+  DynamicTheme.of(context).setThemeData(ThemeData(
+    primaryColor: Theme.of(context).primaryColor == Colors.indigo ? Colors.red : Colors.indigo
+  ));
+}
 ```
 
-When changing the brightness with `setBrightness`, it is additionally stored in the shared preferences.
+When changing the theme mode with `setThemeMode` , it is additionally stored in the shared preferences.
 
 ## Also included
 
-### A dialog widget to change the brightness!
+### A dialog widget to change the theme mode !
+
 ![](https://github.com/Norbert515/dynamic_theme/blob/master/assets/dialogs.png)
 
 ## Getting Started

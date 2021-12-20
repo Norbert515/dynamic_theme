@@ -1,7 +1,6 @@
 name: dynamic_theme
 description: Changes the theme during runtime, also presists brightness settings across restarts
-version: 2.0.0-nullsafety
-author: 'Norbert Kozsir <kozsir.norbert@gmail.com>'
+version: 2.0.0
 homepage: 'https://github.com/Norbert515/dynamic_theme'
 
 environment:
@@ -10,8 +9,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  shared_preferences: ^2.0.5
+  shared_preferences: ">=2.0.0 <3.0.0"
 
 dev_dependencies:
+  flutter_lints: ^1.0.0
   flutter_test:
     sdk: flutter

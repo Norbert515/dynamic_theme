@@ -8,7 +8,7 @@ GlobalKey<DynamicThemeState> easyThemeKey = GlobalKey<DynamicThemeState>();
 
 void main() {
   testWidgets('test finds state', (WidgetTester tester) async {
-    await tester.pumpWidget(MyApp());
+    await tester.pumpWidget(const MyApp());
 
     expect(state, equals(null));
 
@@ -20,28 +20,39 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return DynamicTheme(
-        key: easyThemeKey,
-        defaultBrightness: Brightness.light,
-        data: (Brightness brightness) {
-          return ThemeData(
+      key: easyThemeKey,
+      defaultThemeMode: ThemeMode.light,
+      themedWidgetBuilder: (
+        BuildContext context,
+        ThemeMode mode,
+        ThemeData? theme,
+      ) {
+        return MaterialApp(
+          themeMode: mode,
+          title: 'Flutter Demo',
+          theme: ThemeData(
             primarySwatch: Colors.indigo,
-            brightness: brightness,
-          );
-        },
-        themedWidgetBuilder: (BuildContext context, ThemeData theme) {
-          return MaterialApp(
-            title: 'Flutter Demo',
-            theme: theme,
-            home: ButtonPage(),
-          );
-        });
+            brightness: Brightness.light,
+          ),
+          darkTheme: ThemeData(
+            primarySwatch: Colors.indigo,
+            brightness: Brightness.dark,
+          ),
+          home: const ButtonPage(),
+        );
+      },
+    );
   }
 }
 
 class ButtonPage extends StatelessWidget {
+  const ButtonPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
